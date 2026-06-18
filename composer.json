@@ -1,0 +1,15 @@
+{
+    "name": "rodrigotavares/pedidos",
+    "description": "Um Sistema Simples para estudo de arquitetura Hexagonal",
+    "autoload": {
+        "psr-4": {
+            "Rodrigotavares\\Pedidos\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Rodrigo Cesar Tavares Ferreira"
+        }
+    ],
+    "require": {}
+}
