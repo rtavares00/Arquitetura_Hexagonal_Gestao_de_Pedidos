@@ -19,7 +19,6 @@ mudança de status e notificar o cliente.
 - [Regras de negócio do Pedido](#-regras-de-negócio-do-pedido)
 - [Como executar](#-como-executar)
 - [Decisões de design](#-decisões-de-design)
-- [Limitações conhecidas e próximos passos](#-limitações-conhecidas-e-próximos-passos)
 
 ---
 
@@ -220,17 +219,3 @@ Pedido #1 confirmado. Status: pago.
 - **Injeção de dependência no construtor.** Colaboradores (repositório,
   notificador) entram pelo construtor; dados da operação (id, valor) entram
   pelo método. Isso mantém o núcleo desacoplado e testável.
-
----
-
-## ⚠️ Limitações conhecidas e próximos passos
-
-- **`float` para dinheiro é arriscado** (erros de arredondamento, ex.:
-  `0.1 + 0.2 != 0.3`). Evolução natural: usar `int` em centavos ou um
-  *value object* `Dinheiro`.
-- **Persistência apenas em memória** — os dados se perdem ao fim da execução.
-  Um adapter real (MySQL, arquivo, etc.) implementaria o mesmo
-  `ContratoRepositorioPedido`.
-- **Notificação só por console** — falta canal real (e-mail/SMS), que exigirá
-  o `Pedido` carregar o contato do cliente (há um `emailCliente` já previsto,
-  comentado, na entidade).
