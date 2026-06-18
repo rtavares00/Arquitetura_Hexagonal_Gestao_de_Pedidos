@@ -15,13 +15,12 @@ Class ConfirmarPagamento{
 
     }
 
-    public function confirmar(int $id,float $valorPago){
+    public function confirmar(int $id,float $valorPago):void
+    {
         $pedido = $this->repositorio->buscar($id);
-        $isConfirmed = $pedido->confirmarPagamento($valorPago);
-
-        if($isConfirmed):
-            $this->mensageiro->notificar($pedido);
-        endif;
+        $pedido->confirmarPagamento($valorPago);
+        $this->repositorio->salvar($pedido);
+        $this->mensageiro->notificar($pedido);
     }
 
 }

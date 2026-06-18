@@ -14,7 +14,7 @@ enum StatusPedido: string
 class Pedido
 {
     
-    public function __construct(private int $id, /*private string $emailCliente,*/ private float $valor, private string $status)
+    public function __construct(private int $id, /*private string $emailCliente,*/ private float $valor, private StatusPedido $status)
     {
 
     }
@@ -29,7 +29,7 @@ class Pedido
         return $this->valor;
     }
 
-    public function status():string
+    public function status():StatusPedido
     {
         return $this->status;
     }
@@ -43,7 +43,7 @@ class Pedido
 
     public function garantirStatusValidoParaPagamento():void
     {
-        if(StatusPedido::Pendente->value != $this->status()):
+        if($this->status !== StatusPedido::Pendente):
             throw new StatusNaoPermitidoException();
         endif;
     }
@@ -55,11 +55,10 @@ class Pedido
         endif;
     }
 
-    public function confirmarPagamento(float $valorPago):bool
+    public function confirmarPagamento(float $valorPago):void
     {
         $this->garantirStatusValidoParaPagamento();
         $this->garantirValogPagoConfereValorDoPedido($valorPago);
-        $this->status = StatusPedido::Pago->value;
-        return true;
+        $this->status = StatusPedido::Pago;
     }
 }

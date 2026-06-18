@@ -12,6 +12,6 @@ final class NotificadorPedidoConsole implements ContratoNotificadorPedido
 
     public function notificar(Pedido $pedido):void
     {
-        echo "Pedido #{$pedido->id()} confirmado. Status: {$pedido->status()}." . PHP_EOL;
+        echo "Pedido #{$pedido->id()} confirmado. Status: {$pedido->status()->value}." . PHP_EOL;
     }
 }

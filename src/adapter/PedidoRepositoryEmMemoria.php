@@ -4,7 +4,6 @@ namespace Rodrigotavares\Pedidos\adapter;
 use Rodrigotavares\Pedidos\Domain\Pedido;
 use Rodrigotavares\Pedidos\Domain\StatusPedido;
 use Rodrigotavares\Pedidos\adapter\Exceptions\PedidoRepositoryEmMemoria\PedidoNaoEncontradoException;
-use Rodrigotavares\Pedidos\adapter\Exceptions\PedidoRepositoryEmMemoria\PedidoJaExisteException;
 use Rodrigotavares\Pedidos\port\ContratoRepositorioPedido;
 
 final class PedidoRepositoryEmMemoria implements ContratoRepositorioPedido
@@ -19,9 +18,9 @@ final class PedidoRepositoryEmMemoria implements ContratoRepositorioPedido
     private function seed():void
     {
         // Dados fake para teste em memoria
-        array_push($this->pedidos, new Pedido(1, 150.00, StatusPedido::Pendente->value));
-        array_push($this->pedidos, new Pedido(2, 89.90, StatusPedido::Pago->value));
-        array_push($this->pedidos, new Pedido(3, 320.50, StatusPedido::Cancelado->value));
+        array_push($this->pedidos, new Pedido(1, 150.00, StatusPedido::Pendente));
+        array_push($this->pedidos, new Pedido(2, 89.90, StatusPedido::Pago));
+        array_push($this->pedidos, new Pedido(3, 320.50, StatusPedido::Cancelado));
     }
 
     public function buscar(int $id):Pedido{
@@ -35,11 +34,12 @@ final class PedidoRepositoryEmMemoria implements ContratoRepositorioPedido
 
         throw new PedidoNaoEncontradoException();
     }
-    public function salvar(Pedido $pedido)
+    public function salvar(Pedido $pedido):void
     {
-        foreach($this->pedidos as $existente):
+        foreach($this->pedidos as $indice => $existente):
             if($existente->id() == $pedido->id()):
-                throw new PedidoJaExisteException($pedido->id());
+                $this->pedidos[$indice] = $pedido;
+                return;
             endif;
         endforeach;
 
